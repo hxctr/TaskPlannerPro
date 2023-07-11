@@ -4,6 +4,9 @@ const myconn = require('express-myconnection');
 const routes = require('./routes');
 
 
+
+
+
 const app = express();
 app.set('port', process.env.PORT || 9000);
 const dbOptions = {
@@ -13,6 +16,19 @@ const dbOptions = {
     password: '1234', 
     database: 'activities'
 }
+
+//----------
+const cors=require("cors");
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions)) 
+
+
+//---------
 
 //middlewares
 app.use(myconn(mysql, dbOptions, 'single'))
