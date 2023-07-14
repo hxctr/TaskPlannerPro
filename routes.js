@@ -72,6 +72,33 @@ routes.patch('/', (req, res) => {
       }
     });
   });
+
+  //delete to-do
+  routes.delete('/', (req, res) => {
+    const todoId = req.body.id;  
+    req.getConnection((err, conn) => {
+      if (err) {
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+  
+      conn.query('DELETE FROM activity WHERE id = ?', [todoId], (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: 'Error deleting item' });
+        }
+  
+        // Verifica si se eliminó correctamente el item
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ error: 'Item not found' });
+        }
+  
+        res.status(200).json({ message: 'to-do deleted successfully' });
+        console.log('----------------');
+          console.log('| todo deleted |');
+          console.log('----------------');
+      });
+    });
+  });
+  
   
 
 
