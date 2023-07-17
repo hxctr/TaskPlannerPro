@@ -98,6 +98,30 @@ routes.patch('/', (req, res) => {
       });
     });
   });
+
+  //edit state
+  routes.patch('/state', (req, res) => {
+  const id = req.body.id;
+  const newState = req.body.state;
+
+  req.getConnection((err, conn) => {
+    if (err) {
+      return res.send(err);
+    } else {
+      conn.query('UPDATE activity SET state = ? WHERE id = ?', [newState, id], (err, rows) => {
+        if (err) {
+          return res.send(err);
+        } else {
+          res.status(200).json({ message: 'State updated successfully' });
+           console.log('----------------');
+          console.log('| state changed |');
+          console.log('----------------');
+        }
+      });
+    }
+  });
+});
+
   
   
 
